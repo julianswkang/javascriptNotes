@@ -69,7 +69,7 @@ dog.prototype.bark = "bark";
 //every object in javascript has this property
 //it points back to the prototype object of the constructor function that created that object
 
-//this is a test
+//this is a test where is it on git hub?
 //more examples below from CS prep challenges
 
 /****************************************************************
