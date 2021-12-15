@@ -30,7 +30,7 @@ const maddie = new dog();
 
 // console.log(maddie.pupper); //pupper
 // console.log(maddie.pupperino); //woooooooooof
-// console.log(dogisPrototypeOf(maddie)); //false
+// console.log(dog.isPrototypeOf(maddie)); //true
 // console.log((dog.prototype).isPrototypeOf(maddie)); //true
 // console.log(maddie.prototype); //undefined
 // console.log(dog.prototype); //{ pupperino: 'woooooooooof' }
@@ -69,8 +69,44 @@ dog.prototype.bark = "bark";
 //every object in javascript has this property
 //it points back to the prototype object of the constructor function that created that object
 
+
+// // Only change code below this line
+// class Thermostat{
+//     constructor (fahrenheit){
+//       this.fahrenheit = fahrenheit;
+//     }
+//     get temperature(){
+//       return ((5/9) * (this.fahrenheit - 32));
+//     }
+//     set temperature(celsius){
+//       this.fahrenheit = ((celsius * 9.0 )/ 5 + 32);
+//     }
+//   }
+//   // Only change code above this line
+  
+//   const thermos = new Thermostat(76); // Setting in Fahrenheit scale
+//   console.log(thermos);
+//   //{ fahrenheit: 76 } --> initializing an object with fahrenheit as property, and 76 as value via constructor method
+  
+//   let temp = thermos.temperature; // 24.44 in Celsius
+//   console.log(temp);
+//   //24.444444444444446 --> utilizing getter to obtain thermos' fahrenheit temperature as celsius, and storing that celsius value in temp 
+  
+//   thermos.temperature = 26;
+//   console.log(thermos)
+//   //{ fahrenheit: 78.8 } --> utilizing setter, taking 26 as the celsius temp and converting that to fahrenheit, and setting fahrenheit to 78.8 = 26deg in celsius
+  
+//   temp = thermos.temperature; // 26 in Celsius
+//   console.log(temp)
+//   //26 --> using getter to figure out what thermos new fahrenheit temp is in celsius 
+  
+
+
+
+
 //this is a test where is it on git hub?
 //more examples below from CS prep challenges
+
 
 /****************************************************************
                   WORKING WITH OBJECT LITERALS
