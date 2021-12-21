@@ -110,17 +110,16 @@
 //  ]
 
 //To search or extract a pattern more than once, you can use the g flag.
-
 // let twinkleStar = "Twinkle, twinkle, little star";
 // let starRegex = /twinkle/gi; //the g flag looks for multiples, the i flag ignores case sensitivity 
 // let result = twinkleStar.match(starRegex); 
 // console.log(result); //[ 'Twinkle', 'twinkle' ]
 
+// MATCHING WORDS WITH THE WILDCARD CHARACTER 
 //The wildcard character . will match any one character. The wildcard is also called dot and period. 
 //You can use the wildcard character just like any other character in the regex. 
 //For example, if you wanted to match hug, huh, hut, and hum, you can use the regex /hu./ to match all four words.
 //can put wildcard character at the beginning as well
-
 // let humStr = "I'll hum a song";
 // let hugStr = "Bear hug";
 // let huRegex = /hu./;
@@ -131,3 +130,73 @@
 // let unRegex = /.un/g; 
 // let result = unRegex.test(exampleStr); //true
 
+// MATCHING WORDS WITH SPECIFIC LETTERS INSIDE THE WORD
+// You can search for a literal pattern with some flexibility with character classes. 
+// Character classes allow you to define a group of characters you wish to match by placing them inside square ([ and ]) brackets.
+// For example, you want to match bag, big, and bug but not bog. 
+// You can create the regex /b[aiu]g/ to do this. 
+// The [aiu] is the character class that will only match the characters a, i, or u.
+// let bigStr = "big";
+// let bagStr = "bag";
+// let bugStr = "bug";
+// let bogStr = "bog";
+// let bgRegex = /b[aiu]g/;
+// bigStr.match(bgRegex); //["big"]
+// bagStr.match(bgRegex); //["bag"]
+// bugStr.match(bgRegex); //["bug"]
+// bogStr.match(bgRegex); //null
+
+// let quoteSample = "Beware of bugs in the above code; I have only proved it correct, not tried it.";
+// let vowelRegex = /[aeiou]/gi; 
+// let result = quoteSample.match(vowelRegex);
+// console.log(result); //[ 'e','a','e','o','u','i','e','a','o','e','o','e','I','a','e','o','o','e','i','o','e','o','i','e','i' ]
+
+//MATCHING RANGE OF LETTERS WITHIN A WORD
+//Inside a character set, you can define a range of characters to match using a hyphen character: -.
+//For example, to match lowercase letters a through e you would use [a-e].
+// let catStr = "cat";
+// let batStr = "bat";
+// let matStr = "mat";
+// let bgRegex = /[a-e]at/;
+// catStr.match(bgRegex); //["cat"]
+// batStr.match(bgRegex); //["bat"]
+// matStr.match(bgRegex); //null
+
+//MATCHING RANGE OF LETTERS AND NUMBERS
+//Using the hyphen (-) to match a range of characters is not limited to letters. It also works to match a range of numbers.
+//For example, /[0-5]/ matches any number between 0 and 5, including the 0 and 5.
+//Also, it is possible to combine a range of letters and numbers in a single character set.
+// let quoteSample = "Blueberry 3.141592653s are delicious.";
+// let myRegex = /[h-s2-6]/gi; 
+// let result = quoteSample.match(myRegex); 
+// console.log(result); //['l', 'r', 'r', '3', '4', '5', '2', '6', '5', '3', 's', 'r', 'l', 'i', 'i','o', 's']
+
+//You could also create a set of characters that you do not want to match. 
+//These types of character sets are called negated character sets.
+//To create a negated character set, you place a caret character (^) after the opening bracket 
+//and before the characters you do not want to match.
+// let quoteSample = "3 blind mice.";
+// let myRegex = /[^aeiou0-9]/gi; //looking for letters that are NOT a,e,i,o,u or numbers
+// let result = quoteSample.match(myRegex); 
+// console.log(result); //[ ' ', 'b', 'l', 'n', 'd', ' ', 'm', 'c', '.' ]
+
+
+//match a character (or group of characters) that appears one or more times in a row. 
+//This means it occurs at least once, and may be repeated.
+//You can use the + character to check if that is the case. 
+//Remember, the character or pattern has to be present consecutively. T
+//hat is, the character has to repeat one after the other.
+// let difficultSpelling = "Mississippi";
+// let myRegex = /s+/g; 
+// let result = difficultSpelling.match(myRegex);
+// console.log(result); //[ 'ss', 'ss' ]
+
+//There's also an option that matches characters that occur zero or more times.
+//The character to do this is the asterisk or star: *.
+// let soccerWord = "gooooooooal!";
+// let gPhrase = "gut feeling";
+// let oPhrase = "over the moon";
+// let goRegex = /go*/; //looking for 'o' 0 or more times
+// soccerWord.match(goRegex); //["goooooooo"]
+// gPhrase.match(goRegex); //["g"]
+// oPhrase.match(goRegex); //null
