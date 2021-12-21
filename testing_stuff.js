@@ -123,7 +123,7 @@ function exclusiveSum(arr) {
 // const thermos = new Thermostat(76); // Setting in Fahrenheit scale
 // console.log(thermos); //{ temp: 76 }
 
-// //creating a new object with thermos' fahrenheit temp in celsius
+// //initializing a new variable with thermos' fahrenheit temp in celsius
 // let temp = thermos.temperature; 
 // console.log(temp);// 24.44 in Celsius
 
@@ -131,6 +131,8 @@ function exclusiveSum(arr) {
 // thermos.temperature = 26;
 // console.log(thermos); //{ temp: 78.8 }
 
-// //setting the temp object's temperature to thermos' fahrenheit temp in celsius 
+// //setting the temp variable to thermos' fahrenheit temp in celsius 
 // temp = thermos.temperature; 
 // console.log(temp); // 26 in Celsius
+
+//i am testing to see if i understand how to push commits onto github
