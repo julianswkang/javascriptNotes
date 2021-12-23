@@ -252,7 +252,7 @@ let quoteSample2 = "The five boxing wizards jump quickly.";
 let alphabetRegexV2 = /\w+/g; 
 let result2 = quoteSample.match(alphabetRegexV2).length; //6 //represents words, modified with the '+'
 
-//use /\W/ (capital W) to matche everything but numbers and letters
+//use /\W/ (capital W) to match everything but numbers and letters
 //can also use /[^A-za-z0-9]
 let shortHand = /\W/;
 let numbers = "42%";
@@ -264,3 +264,78 @@ sentence.match(shortHand); //['!']
 let movieName = "2001: A Space Odyssey";
 let numRegex = /\d/g;
 let result = movieName.match(numRegex).length; //4
+
+//use /\D/ to match all NON-numbers, which is equivalent to /[^0-9]/
+let movieName = "2001: A Space Odyssey";
+let noNumRegex = /\D/g;
+let result = movieName.match(noNumRegex).length; //17
+
+//Usernames can only use alpha-numeric characters.
+//The only numbers in the username have to be at the end. 
+//There can be zero or more of them at the end. Username cannot start with the number.
+//Username letters can be lowercase and uppercase.
+//Usernames have to be at least two characters long. 
+//A two-character username can only use alphabet letters as character
+let username = "JackOfAllTrades";
+let userCheck = /^[a-z][a-z]+\d*$|^[a-z]\d\d+$/i; 
+// /^[a-z][a-z]+ is looking for two alphabet characters in the beginning  // \d*$ is looking for 0 or more digits at the end
+// '|' == or
+// /^[a-z] is looking for one alphabet character in the beginning \d\d+$/ is looking for at least two digits at the end
+//the 'i' allows us to test without case sensitivity 
+let result = userCheck.test(username); //true
+
+//can use /\s/g to test/match for spaces in the string, as well as nonspace elements with /\S/g
+
+//You can specify the lower and upper number of patterns with quantity specifiers. 
+//Quantity specifiers are used with curly brackets ({ and })
+let ohStr = "Ohhh no";
+let ohRegex = /Oh{3,6} no/; 
+let result = ohRegex.test(ohStr);
+//will be true for "Ohhh no", "Ohhhhhh no"
+//will be false for "Oh no", "Ohhhhhhhh no"
+
+//You can specify the lower and upper number of patterns with quantity specifiers using curly brackets. 
+//Sometimes you only want to specify the lower number of patterns with no upper limit.
+//For example, to match only the string hah with the letter a appearing at least 3 times, your regex would be /ha{3,}h/.
+let A4 = "haaaah";
+let A2 = "haah";
+let A100 = "h" + "a".repeat(100) + "h";
+let multipleA = /ha{3,}h/;
+multipleA.test(A4); //true
+multipleA.test(A2); //false
+multipleA.test(A100); //true
+
+//can also do for exact number of patterns with {3} will only look for exactly 3 
+let exactA = /ha{3}h/;
+let A3 = "haaah";
+exactA.test(A3); //true
+exactA.test(A4); //false
+
+//all or none
+//You can specify the possible existence of an element with a question mark, ?. 
+//This checks for zero or one of the preceding element. 
+//You can think of this symbol as saying the previous element is optional.
+let american = "color";
+let british = "colour";
+let rainbowRegex= /colou?r/;
+rainbowRegex.test(american); //true
+rainbowRegex.test(british); //true
+
+//Searching is useful. However, you can make searching even more powerful when it also changes (or replaces) the text you match.
+//You can search and replace text in a string using .replace() on a string. 
+//The inputs for .replace() is first the regex pattern you want to search for.
+//The second parameter is the string to replace the match or a function to do something.
+let wrongText = "The sky is silver.";
+let silverRegex = /silver/;
+wrongText.replace(silverRegex, "blue");
+//The replace call would return the string "The sky is blue.""
+//You can also access capture groups in the replacement string with dollar signs ($).
+"Code Camp".replace(/(\w+)\s(\w+)/, '$2 $1');
+//The replace call would return the string Camp Code.
+let str = "one two three";
+let fixRegex = /(\w+)\s(\w+)\s(\w+)/; 
+let replaceText = "$3 $2 $1"; 
+let result = str.replace(fixRegex, replaceText); //"three two one"
+let hello = "   Hello, World!  ";
+let wsRegex = /^\s+|\s+$/g; 
+let result = hello.replace(wsRegex, ""); //"Hello, World!"
