@@ -339,3 +339,8 @@ let result = str.replace(fixRegex, replaceText); //"three two one"
 let hello = "   Hello, World!  ";
 let wsRegex = /^\s+|\s+$/g; 
 let result = hello.replace(wsRegex, ""); //"Hello, World!"
+
+//debugging
+//can use console.clear() to clear browser console
+//You can use "typeof" to check the data structure, or type, of a variable.
+//JavaScript recognizes six primitive (immutable) data types: Boolean, Null, Undefined, Number, String
