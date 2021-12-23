@@ -225,3 +225,42 @@ let storyRegex = /story$/;
 storyRegex.test(theEnding); //true
 let noEnding = "Sometimes a story will have to end";
 storyRegex.test(noEnding); //false
+
+
+//Using character classes, you were able to search for all letters of the alphabet with [a-z]. 
+//This kind of character class is common enough that there is a shortcut for it, although it includes a few extra characters as well.
+//The closest character class in JavaScript to match the alphabet is \w. 
+//This shortcut is equal to [A-Za-z0-9_]. This character class matches upper and lowercase letters plus numbers. 
+//Note, this character class also includes the underscore character (_).
+
+//using test to see if the string contains:
+let longHand = /[A-Za-z0-9_]+/; //any numbers or letters
+let shortHand = /\w+/; //any words
+let numbers = "42";
+let varNames = "important_var";
+longHand.test(numbers); //true
+shortHand.test(numbers); //true
+longHand.test(varNames); //true
+shortHand.test(varNames); //true
+
+//using match to create a new array
+let quoteSample = "The five boxing wizards jump quickly.";
+let alphabetRegexV1 = /\w/g; 
+let result = quoteSample.match(alphabetRegexV1).length; //31 //represents characters
+
+let quoteSample2 = "The five boxing wizards jump quickly.";
+let alphabetRegexV2 = /\w+/g; 
+let result2 = quoteSample.match(alphabetRegexV2).length; //6 //represents words, modified with the '+'
+
+//use /\W/ (capital W) to matche everything but numbers and letters
+//can also use /[^A-za-z0-9]
+let shortHand = /\W/;
+let numbers = "42%";
+let sentence = "Coding!";
+numbers.match(shortHand); //['%']
+sentence.match(shortHand); //['!']
+
+//use /\d\ to match all numbers, which is equal to /[0-9]/
+let movieName = "2001: A Space Odyssey";
+let numRegex = /\d/g;
+let result = movieName.match(numRegex).length; //4
