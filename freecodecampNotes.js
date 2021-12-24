@@ -344,3 +344,98 @@ let result = hello.replace(wsRegex, ""); //"Hello, World!"
 //can use console.clear() to clear browser console
 //You can use "typeof" to check the data structure, or type, of a variable.
 //JavaScript recognizes six primitive (immutable) data types: Boolean, Null, Undefined, Number, String
+
+//basic data structurs
+//.slice() returns portion of a string or array (starting index (inclusive), ending index (exclusive))
+  //does not modify to original string or array
+//.splice() returns a portion of an array (starting index, delete count, ...replacement elements)
+  //will modify to original string or array
+
+// spread operator
+//ES6's new spread operator allows us to easily copy all of an array's elements, in order, with a simple and highly readable syntax. 
+//The spread syntax simply looks like this: ...
+let thisArray = [true, true, undefined, false, null];
+let thatArray = [...thisArray];
+//thatArray equals [true, true, undefined, false, null]. 
+//thisArray remains unchanged and thatArray contains the same elements as thisArray.
+
+//Luckily, JavaScript provides us with another built-in method, indexOf()
+//that allows us to quickly and easily check for the presence of an element on an array. 
+//indexOf() takes an element as a parameter, and when called, it returns the position, or index, of that element
+//or -1 if the element does not exist on the array.
+function quickCheck(arr, elem) {
+  if (arr.indexOf(elem) != -1){
+    return true;
+  }
+  else return false;
+}
+console.log(quickCheck(['squash', 'onions', 'shallots'], 'mushrooms')); //false
+
+//returns true if the object passed to it contains all four names, Alan, Jeff, Sarah and Ryan 
+//and returns false otherwise.
+let users = {
+  Alan: {age: 27, online: true},
+  Jeff: {age: 32, online: true},
+  Sarah: {age: 48, online: true},
+  Ryan: {age: 19, online: true}
+};
+function isEveryoneHere(userObj) {
+  return ["Alan", "Jeff", "Sarah", "Ryan"].every(name =>
+    userObj.hasOwnProperty(name));
+}
+console.log(isEveryoneHere(users)); //true
+
+//algorithm practice
+
+//Confirm the Ending
+//Check if a string (first argument, str) ends with the given target string (second argument, target).
+//This challenge can be solved with the .endsWith() method, which was introduced in ES2015. 
+//But for the purpose of this challenge, we would like you to use one of the JavaScript substring methods instead.
+
+function confirmEnding(str, target) { //any of these three are effective
+  let strEnd = str.slice(-target.length); //takes 3 indices from the end of str
+  console.log(strEnd); //ian
+  if (strEnd == target) return true;
+  return false; 
+
+  let strEnd = str.slice(str.length /*7*/- target.length /*3*/);
+  //=str.slice(4) == inclusive starting from index 4
+  console.log(strEnd); //ian
+  if (strEnd == target) return true;
+  return false;
+
+  let reg = new RegExp(target + "$", "i");
+  return reg.test(str);
+
+}
+confirmEnding("Bastian", "ian"); //true
+
+//Return the length of the longest word in the provided sentence.
+//Your response should be a number.
+function findLongestWordLength(s) {
+  return s.split(' ')
+    .reduce((longest, word)=> {
+      return Math.max(longest, word.length)
+    }, 0);
+}
+
+//Repeat a given string str (first argument) for num times (second argument). 
+//Return an empty string if num is not a positive number. 
+//For the purpose of this challenge, do not use the built-in .repeat() method.
+function repeatStringNumTimes(str, num) {
+  if (num <= 0) return ""; //base case
+  if (num == 1) return str;  //base case
+  
+  return str+=(repeatStringNumTimes(str,num-1)); //recursive call
+}
+repeatStringNumTimes("abc", 3); //abcabcabc
+
+//Truncate a string (first argument) if it is longer than the given maximum string length (second argument). 
+//Return the truncated string with a ... ending.
+function truncateString(str, num) {
+  if (str.length > num){
+    return str.slice(0,num) + "...";
+  }
+  return str;
+}
+truncateString("A-tisket a-tasket A green and yellow basket", 8); //"A-tisket..."
