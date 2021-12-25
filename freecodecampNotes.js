@@ -522,7 +522,7 @@ bouncer([7, "ate", "", false, 9]); //[ 7, 'ate', 9 ]
 //Likewise, getIndexToIns([20,3,5], 19) should return 2 because once the array has been sorted it will look like [3,5,20] 
 //and 19 is less than 20 (index 2) and greater than 5 (index 1).
 function getIndexToIns(arr, num) {
-  let outputArr = arr.sort((a, b) => a - b);
+  let outputArr = arr.sort((a, b) => a - b); //this will sort in numerical order 
   //sort method:
     // > 0	sort b before a
     // < 0	sort a before b
@@ -530,10 +530,47 @@ function getIndexToIns(arr, num) {
 
   for (let i = 0; i < outputArr.length; i++){
     if (num <= outputArr[i]){
-      console.log(i);
-       return i;
+      //console.log(i);
+      return i;
      }
   }
-  return outputArr.length;
+  return outputArr.length; //if iterates through the entire array and num is the largest, will need to place at the end of the array
 }
 getIndexToIns([5, 3, 20, 3], 5); // 2
+
+//Return true if the string in the first element of the array contains all of the letters of the string in the second element of the array.
+//ex.["hello", "Hello"], should return true because all of the letters in the second string are present in the first, ignoring case.
+//the arguments ["hello", "hey"] should return false because the string hello does not contain a y.
+function mutation(arr) {
+  let firstEle = arr[0].toLowerCase();
+  let secondEle = arr[1].toLowerCase();
+  for (let i = 0; i < secondEle.length; i++){
+    if (firstEle.indexOf(secondEle[i]) < 0) return false;
+  }
+  return true;
+}
+mutation(["hello", "hey"]);//false
+
+//Write a function that splits an array (first argument) into groups the length of size (second argument) 
+//and returns them as a two-dimensional array.
+function chunkArrayInGroups(arr, size) {
+  let outputArr = [];
+  for (let i = 0; i < arr.length; i+=size){
+    outputArr.push(arr.slice(i,i+size));
+  }
+  console.log(outputArr);
+  return outputArr;
+}
+//OR
+//use recursion
+function chunkArrayInGroups(arr, size) {
+  if (arr.length <= size) {
+    return [arr];
+  } else {
+    return [arr.slice(0, size)].concat(
+      chunkArrayInGroups(arr.slice(size), size)
+    );
+  }
+}
+chunkArrayInGroups(["a", "b", "c", "d"], 2); //[ [ 'a', 'b' ], [ 'c', 'd' ] ]
+chunkArrayInGroups([1, 2, 3, 4, 5], 2); //[ [ 1, 2 ], [ 3, 4 ], [ 5 ] ]
