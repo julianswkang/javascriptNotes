@@ -439,3 +439,101 @@ function truncateString(str, num) {
   return str;
 }
 truncateString("A-tisket a-tasket A green and yellow basket", 8); //"A-tisket..."
+
+//Create a function that looks through an array arr and returns the first element in it that passes a 'truth test'. 
+//This means that given an element x, the 'truth test' is passed if func(x) is true. If no element passes the test, return undefined.
+function findElement(arr, func) {
+  let num;
+  for (let i = 0; i < arr.length; i++){
+    if (func(arr[i])){
+      num = arr[i];
+      return num;
+    }
+  }
+  return num;
+}
+//OR
+function findElement(arr, func){
+  return arr.find(func);
+}
+//The find() method returns the value of the first element in the provided array that satisfies the provided testing function. 
+//If no values satisfy the testing function, undefined is returned.
+findElement([1, 2, 3, 4], num => num % 2 === 0); //2
+
+//Return the provided string with the first letter of each word capitalized. Make sure the rest of the word is in lower case.
+//For the purpose of this exercise, you should also capitalize connecting words like the and of.
+function titleCase(str) {
+  let chopped = str.split(" ");
+  let newWord = "";
+  chopped.forEach((element)=> {
+    let first = element.slice(0,1);
+    first = first.toUpperCase();
+    let rest = element.slice(1);
+    rest = rest.toLowerCase();
+    let combined = first + rest;
+    newWord = newWord + " " + combined;
+  })
+  return newWord;
+}
+//OR
+//The replace() method returns a new string with some or all matches of a pattern replaced by a replacement. 
+//The pattern can be a string or a RegExp, and the replacement can be a string or a function to be called for each match. 
+//If pattern is a string, only the first occurrence will be replaced.
+function titleCase(str) {
+  let convertToArray = str.toLowerCase().split(" ");
+  let result = convertToArray.map((val) => {
+    return val.replace(val.charAt(0), val.charAt(0).toUpperCase());
+  });
+  return result.join(" ");
+}
+titleCase("I'm a little tea pot");
+
+//Copy each element of the first array into the second array, in order.
+//Begin inserting elements at index n of the second array.
+//Return the resulting array. The input arrays should remain the same after the function runs.
+function frankenSplice(arr1, arr2, n) {
+  let newArr = arr2.slice();
+  newArr.splice(n,0,...arr1);
+  return newArr;
+}
+frankenSplice([1, 2, 3], [4, 5, 6], 1);
+
+//Remove all falsy values from an array.
+//Falsy values in JavaScript are false, null, 0, "", undefined, and NaN.
+function bouncer(arr) {
+  let outputArr = [];
+  for (let i = 0; i < arr.length; i++){
+    if (arr[i]) {
+      outputArr.push(arr[i]);
+    }
+  }
+  return outputArr;
+}
+//or
+function bouncer(arr){
+  return arr.filter(Boolean);
+}
+
+bouncer([7, "ate", "", false, 9]); //[ 7, 'ate', 9 ]
+
+//Return the lowest index at which a value (second argument) should be inserted into an array (first argument) once it has been sorted. 
+//The returned value should be a number.
+//For example, getIndexToIns([1,2,3,4], 1.5) should return 1 because it is greater than 1 (index 0), but less than 2 (index 1).
+//Likewise, getIndexToIns([20,3,5], 19) should return 2 because once the array has been sorted it will look like [3,5,20] 
+//and 19 is less than 20 (index 2) and greater than 5 (index 1).
+function getIndexToIns(arr, num) {
+  let outputArr = arr.sort((a, b) => a - b);
+  //sort method:
+    // > 0	sort b before a
+    // < 0	sort a before b
+    // === 0	keep original order of a and b
+
+  for (let i = 0; i < outputArr.length; i++){
+    if (num <= outputArr[i]){
+      console.log(i);
+       return i;
+     }
+  }
+  return outputArr.length;
+}
+getIndexToIns([5, 3, 20, 3], 5); // 2
