@@ -10,7 +10,7 @@ class Thermostat{
     get temperature(){ //getting the temp from fahrenheit into celsius
       return (5/9) * (this.temp-32);
     }
-    set temperature(celsius){ //setting the temp from fahrenheit to celsius
+    set temperature(celsius){ //setting the temp from celsius to fahrenheit
       this.temp = (celsius * 9 / 5) + 32;
     }
   }
@@ -823,3 +823,178 @@ let motionModule = (function () {
 //that can then be used by other parts of your code. Here is an example using it:
 motionModule.glideMixin(duck);
 duck.glide();
+
+//functional programming
+
+//Functional programming is a style of programming where solutions are simple, isolated functions, 
+//without any side effects outside of the function scope: INPUT -> PROCESS -> OUTPUT
+//Functional programming is about:
+  //Isolated functions - there is no dependence on the state of the program, which includes global variables that are subject to change
+  //Pure functions - the same input always gives the same output
+  //Functions with limited side effects - any changes, or mutations, to the state of the program outside the function 
+    //are carefully controlled
+
+//One of the core principles of functional programming is to not change things. Changes lead to bugs. 
+//It's easier to prevent bugs knowing that your functions don't change anything, including the function arguments or any global variable
+//Recall that in functional programming, changing or altering things is called mutation, and the outcome is called a side effect. 
+//A function, ideally, should be a pure function, meaning that it does not cause any side effects.
+
+// The global variable
+let fixedValue = 4;
+function incrementer() {
+  return fixedValue + 1; //if you use fixedValue++, this will mutate the global variable itself, whereas this is returning a fixed value + 1
+  //note: fixedValue++ is equivalent to fixedValue = fixedValue + 1, which will mutate the global variable
+}
+console.log(incrementer()); //5
+console.log(fixedValue); //4
+
+// Another principle of functional programming is to always declare your dependencies explicitly. 
+// This means if a function depends on a variable or object being present, 
+// then pass that variable or object directly into the function as an argument.
+// There are several good consequences from this principle. 
+// The function is easier to test, you know exactly what input it takes, and it won't depend on anything else in your program.
+// This can give you more confidence when you alter, remove, or add new code. 
+// You would know what you can or cannot change and you can see where the potential traps are.
+// Finally, the function would always produce the same output for the same set of inputs, 
+// no matter what part of the code executes it.
+let fixedValue = 4;
+function incrementer(value) {
+  return value + 1;
+}
+console.log(incrementer(fixedValue)); //5
+
+// Don't alter a variable or object - create new variables and objects and return them if need be from a function. 
+// Hint: using something like const newArr = arrVar, where arrVar is an array will simply create a reference to the existing variable 
+// and not a copy. So changing a value in newArr would change the value in arrVar.
+// Declare function parameters - any computation inside a function depends only on the arguments passed to the function, 
+// and not on any global object or variable
+const bookList = ["The Hound of the Baskervilles", "On The Electrodynamics of Moving Bodies", 
+                "Philosophiæ Naturalis Principia Mathematica", "Disquisitiones Arithmeticae"];
+function add (list, bookName) {
+  const newArr = [];
+  list.forEach((element) => { //forEach will copy the bookList that is passed in as an argument into newArr
+    newArr.push(element);     //this will allow us to keep bookList unmutated, and mutate the newArr and return newArr
+  })
+  newArr.push(bookName);
+  return newArr;
+  //can also use the following:
+  //return [...list, bookName]; //will make a copy the bookList array with the passed in bookName added to the end
+}
+function remove (list, bookName) {
+  const newArr = [...list]; //this is another way to copy in the bookList array into newArr
+  const book_index = newArr.indexOf(bookName); //looking for index of the bookName within the newArr
+  if (book_index >= 0) {
+    newArr.splice(book_index, 1); //removing the book from the newArr array of books
+    return newArr;
+    }
+  //can also use the following:
+  //return list.filter(book => book !== bookName);
+}
+const newBookList = add(bookList, 'A Brief History of Time');
+const newerBookList = remove(bookList, 'On The Electrodynamics of Moving Bodies');
+const newestBookList = remove(add(bookList, 'A Brief History of Time'), 'On The Electrodynamics of Moving Bodies');
+
+console.log(bookList); //["The Hound of the Baskervilles", "On The Electrodynamics of Moving Bodies", 
+                      //"Philosophiæ Naturalis Principia Mathematica", "Disquisitiones Arithmeticae"]; //UNCHANGED
+
+//using the map method
+//The map method iterates over each item in an array and returns a new array 
+//containing the results of calling the callback function on each element. It does this without mutating the original array.
+const users = [
+  { name: 'John', age: 34, sex: "M" },
+  { name: 'Amy', age: 20, sex: "F" },
+  { name: 'camperCat', age: 10, sex: "M"}
+];
+const names = users.map((user) => { 
+  return {name: user.name, sex: user.sex}
+});
+console.log(names); //[{ name: 'John', sex: 'M' },{ name: 'Amy', sex: 'F' },{ name: 'camperCat', sex: 'M' }]
+
+//using the filter method
+//filter calls a function on each element of an array and returns a new array containing only the elements for which that function returns true
+//Like map, it does this without needing to modify the original array.
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+const usersUnder30 = users.filter(user => user.age < 30);
+console.log(usersUnder30); //[ { name: 'Amy', age: 20 }, { name: 'camperCat', age: 10 } ]
+
+//slice method
+//The slice method returns a copy of certain elements of an array. 
+// It can take two arguments, the first gives the index of where to begin the slice, the second is the index for where to end the slice 
+//   (and it's non-inclusive). 
+// If the arguments are not provided, the default is to start at the beginning of the array through the end, 
+//   which is an easy way to make a copy of the entire array. The slice method does not mutate the original array, but returns a new one.
+const arr = ["Cat", "Dog", "Tiger", "Zebra"];
+const newArray = arr.slice(1, 3); //["Dog", "Tiger"]
+
+//concatenation of arrays
+[1, 2, 3].concat([4, 5, 6]); //[1, 2, 3, 4, 5, 6]
+//It returns a new array and does not mutate either of the original arrays. 
+//vs. push, which will mutate the original array
+
+//sort method
+function reverseAlpha(arr) {
+  return arr.sort(function(a, b) {
+    return a === b ? 0 : a < b ? 1 : -1;
+    //return a===b ? 0 : a < b ? -1 : 1; //this would sort in alphabetical order 
+  });
+}
+reverseAlpha(['l', 'h', 'z', 'b', 's']); //['z', 's', 'l', 'h', 'b']
+//When such a callback function, normally called compareFunction, is supplied, 
+//the array elements are sorted according to the return value of the compareFunction: 
+//If compareFunction(a,b) returns a value less than 0 for two elements 'a' and 'b', then 'a' will come before 'b'. 
+//If compareFunction(a,b) returns a value greater than 0 for two elements 'a' and 'b', then 'b' will come before 'a'. 
+//If compareFunction(a,b) returns a value equal to 0 for two elements 'a' and 'b', then 'a' and 'b' will remain unchanged.
+
+//split 
+function splitify(str) {
+  return str.split(/\W/); //this will separate words by anything that is not a non-word character //acts as [^A-Za-z0-9_]/
+}
+console.log(splitify("Hello World,I-am code")); //[ 'Hello', 'World', 'I', 'am', 'code']
+
+function urlSlug(title) {
+  let newTitle = title.toLowerCase().split(/\W/).filter((substr) => substr != "").join("-"); //the filter method will remove the spaces ""
+  return newTitle;
+}
+urlSlug(" Winter Is  Coming") //winter-is-coming
+
+//The every method works with arrays to check if every element passes a particular test. 
+//It returns a Boolean value - true if all values meet the criteria, false if not.
+const numbers = [1, 5, 8, 0, 10, 11];
+numbers.every(function(currentValue) {
+  return currentValue < 10; //false
+});
+
+//The some method works with arrays to check if any element passes a particular test. 
+//It returns a Boolean value - true if any of the values meet the criteria, false if not.
+
+//currying and partial application
+//The arity of a function is the number of arguments it requires. 
+//Currying a function means to convert a function of N arity into N functions of arity 1.
+//In other words, it restructures a function so it takes one argument, 
+//then returns another function that takes the next argument, and so on.
+function unCurried(x, y) {
+  return x + y;
+}
+function curried(x) {
+  return function(y) {
+    return x + y;
+  }
+}
+curried(1)(2) //3
+// This is useful in your program if you can't supply all the arguments to a function at one time. 
+// You can save each function call into a variable, which will hold the returned function reference that 
+// takes the next argument when it's available. Here's an example using the curried function in the example above:
+const funcForY = curried(1);
+console.log(funcForY(2)); // 3
+
+//Similarly, partial application can be described as applying a few arguments to a function at a time 
+//and returning another function that is applied to more arguments. Here's an example:
+function impartial(x, y, z) {
+  return x + y + z;
+}
+const partialFn = impartial.bind(this, 1, 2); //x = 1, y = 2, z = undefined 
+partialFn(10); //z = 10 --> //13
