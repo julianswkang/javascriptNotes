@@ -998,3 +998,218 @@ function impartial(x, y, z) {
 }
 const partialFn = impartial.bind(this, 1, 2); //x = 1, y = 2, z = undefined 
 partialFn(10); //z = 10 --> //13
+
+//more algorithm scripting
+
+//diff two arrays
+//Compare two arrays and return a new array with any items only found in one of the two given arrays, but not both. 
+//In other words, return the symmetric difference of the two arrays.
+function diffArray(arr1, arr2) {
+  const newArr = [...arr1, ...arr2]; //[1,2,3,5,1,2,3,4,5]
+  return newArr.filter((element) => {
+    return !arr1.includes(element) || !arr2.includes(element); //if either arr1 or arr2 does NOT include the element, it will be filtered in
+  });
+}
+console.log(diffArray([1, 2, 3, 5], [1, 2, 3, 4, 5])); //[4]
+
+//Seek and Destroy
+//You will be provided with an initial array (the first argument in the destroyer function), followed by one or more arguments. 
+//Remove all elements from the initial array that are of the same value as these arguments.
+function destroyer(arr, ...args) {
+  const newArr = [];
+  arr.forEach((element)=> {
+    if (args.indexOf(element) === -1){
+      newArr.push(element);
+    }
+  });
+  return newArr;
+}
+//or
+function destroyer(arr, ...args) {
+  return arr.filter((element)=> {
+    return args.indexOf(element) === -1;
+  })
+}
+console.log(destroyer([1, 2, 3, 1, 2, 3], 2, 3)); //[1,1];
+
+//wherefore art thou
+//Make a function that looks through an array of objects (first argument) and returns an array of all objects that have matching name and value pairs (second argument). 
+//Each name and value pair of the source object has to be present in the object from the collection if it is to be included in the returned array.
+//For example, if the first argument is [{ first: "Romeo", last: "Montague" }, { first: "Mercutio", last: null }, { first: "Tybalt", last: "Capulet" }], and the second argument is { last: "Capulet" }, 
+//then you must return the third object from the array (the first argument), because it contains the name and its value, that was passed on as the second argument.
+function whatIsInAName(collection, source) {
+  const sourceKeys = Object.keys(source);
+  console.log(sourceKeys);
+  return collection.filter((obj) =>{
+    for (let i = 0; i < sourceKeys.length; i++){
+      if(!obj.hasOwnProperty(sourceKeys[i]) || 
+      obj[sourceKeys[i]] != source[sourceKeys[i]]){
+        return false;
+      }
+    }
+    return true;
+  });
+}
+//or 
+function whatIsInAName(collection, source) {
+  const arr = [];
+  const sourceKeys = Object.keys(source);
+  collection.forEach((obj) =>{
+    for (let i = 0; i < sourceKeys.length; i++){
+      if(!obj.hasOwnProperty(sourceKeys[i]) || 
+      obj[sourceKeys[i]] != source[sourceKeys[i]]){
+        return;
+      }
+    }
+    arr.push(obj);
+  });
+  return arr;
+}
+whatIsInAName(
+[{ first: "Romeo", last: "Montague" }, 
+{ first: "Mercutio", last: null }, 
+{ first: "Tybalt", last: "Capulet" }], 
+
+{ last: "Capulet" }); 
+//should return [{ first: "Tybalt", last: "Capulet" }]
+
+//spinal tap
+//Convert a string to spinal case. Spinal case is all-lowercase-words-joined-by-dashes.
+function spinalCase(str) {
+  // Create a variable for the white space and underscores.
+  let regex = /\s+|_+/g;
+  // Replace low-upper case to low-space-uppercase
+  str = str.replace(/([a-z])([A-Z])/g, "$1 $2");
+  console.log(str);
+  // Replace space and underscore with -
+  return str.replace(regex, "-").toLowerCase();
+}
+console.log(spinalCase('This Is Spinal Tap')); //this-is-spinal-tap
+console.log(spinalCase("thisIsSpinalTap")); //this-is-spinal-tap
+console.log(spinalCase("The_Andy_Griffith_Show")); //the-andy-griffith-show
+console.log(spinalCase("AllThe-small Things")); //all-the-small-things
+
+//pig latin
+//Pig Latin is a way of altering English Words. The rules are as follows:
+//If a word begins with a consonant, take the first consonant or consonant cluster, move it to the end of the word, and add ay to it.
+//If a word begins with a vowel, just add way at the end.
+function translatePigLatin(str) {
+  let consonantRegex = /^[^aeiou]+/;
+  let myConsonants = str.match(consonantRegex); //returns the findings of the regex from the str to myConsonants 
+  return myConsonants !== null
+    ? str
+        .replace(consonantRegex, "")
+        .concat(myConsonants)
+        .concat("ay")
+    : str.concat("way");
+}
+translatePigLatin("algorithm"); //algorithmway
+translatePigLatin("california") //aliforniacay
+translatePigLatin("schwartz") //artzschway
+
+//search and replace
+//Perform a search and replace on the sentence using the arguments provided and return the new sentence.
+//First argument is the sentence to perform the search and replace on.
+//Second argument is the word that you will be replacing (before).
+//Third argument is what you will be replacing the second argument with (after).
+//Note: Preserve the case of the first character in the original word when you are replacing it. 
+//For example if you mean to replace the word Book with the word dog, it should be replaced as Dog
+function myReplace(str, before, after) {
+  //find the index of the "before word"
+  let beforeIndex = str.indexOf(before);
+  //determine if that first letter of the before word is capitalized or not
+  //if it is, will need to capitalize the first letter of the after word
+  if (str[beforeIndex] === str[beforeIndex].toUpperCase()){
+    after = after.charAt(0).toUpperCase() + after.slice(1);
+  } else{
+    //if it is not, will not need to capitalize the first letter of the after word
+    after = after.charAt(0).toLowerCase() + after.slice(1);
+  }
+  //replace the before word with the after word 
+  str = str.replace(before, after);
+  return str;
+}
+myReplace("A quick brown fox jumped over the lazy dog", "jumped", "leaped");
+
+//dna pairing
+//The DNA strand is missing the pairing element. Take each character, get its pair, and return the results as a 2d array.
+// Base pairs are a pair of AT and CG. Match the missing element to the provided character.
+// Return the provided character as the first element in each array.
+// For example, for the input GCG, return [["G", "C"], ["C","G"], ["G", "C"]]
+// The character and its pair are paired up in an array, and all the arrays are grouped into one encapsulating array
+function pairElement(str) {
+  // Return each strand as an array of two elements, the original and the pair.
+  let paired = [];
+  // Function to check with strand to pair.
+  let search = function(char) {
+    switch (char) {
+      case "A":
+        paired.push(["A", "T"]);
+        break; //if these breaks were not present, would iterate through each case 
+      case "T":
+        paired.push(["T", "A"]);
+        break;
+      case "C":
+        paired.push(["C", "G"]);
+        break;
+      case "G":
+        paired.push(["G", "C"]);
+        break;
+    }
+  };
+  // Loops through the input and pair.
+  for (let i = 0; i < str.length; i++) {
+    search(str[i]);
+  }
+  return paired;
+}
+//or
+function pairElement(str) {
+  //create object for pair lookup
+  var pairs = {
+    A: "T",
+    T: "A",
+    C: "G",
+    G: "C"
+  };
+  //split string into array of characters
+  const arr = str.split("");
+  //map character to array of character and matching pair
+  return arr.map(x => [x, pairs[x]]);
+}
+pairElement("GCG");
+
+// Missing letters
+// Find the missing letter in the passed letter range and return it.
+// If all letters are present in the range, return undefined.
+function fearNotLetter(str) {
+  let strArr = str.split("");
+  let start = strArr[0].charCodeAt(0); //obtains the ascii code of that character at strArr[0];
+  let end = strArr[strArr.length-1].charCodeAt(0);
+  for (let i = 0; i < strArr.length; i++){
+    if (strArr[i] != String.fromCharCode(start)){ //if the character at index i does not equal the expected ascii char at that ascii number
+      return String.fromCharCode(start); //returns the ascii character at that ascii number that it is missing
+    }
+    start++; //increments start so that iteration also moves to the next ascii character 
+  }
+  return undefined; //if matches all characters and not missing any, will return undefined
+}
+//or
+function fearNotLetter(str) {
+  let start = str.charCodeAt(0);
+  console.log(str.charCodeAt(0)); //97
+  console.log(String.fromCharCode(97)); //a
+  let missing = undefined;
+  str.split('').forEach((letter)=>{
+    if (letter != String.fromCharCode(start)){
+      missing = String.fromCharCode(start);
+    } else {
+      start++;
+    }
+  });
+  return missing;
+}
+fearNotLetter("abce");
+//charCodeAt(index) --> returns an integer representing the UTF-16 code unit at the given index
+//String.fromCharCode(num1, num2,...) --> returns a string created from the specific sequence of UTF-16 unit code units passed in
+//chatAt(index) --> returns a new string consisting of the single UTF-16 code unit at the string's specific index 
