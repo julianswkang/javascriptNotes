@@ -47,12 +47,12 @@ const makeServerRequest = new Promise((resolve, reject) => {
       reject("Data not received");
     }
   });
- //can use then methods to do something once the promise is fulfilled
+ //can use "then" methods to do something once the promise is fulfilled
  //result comes from the argument from the resolve method
   makeServerRequest.then(result => {
     console.log(result); //"We got the data"
   });
- //can use catch methods when your promise is rejected
+ //can use "catch" methods when your promise is rejected
  //result comes from the argument from the reject method
  //executed immediately after promise is rejected 
   makeServerRequest.catch(error => {
@@ -999,6 +999,95 @@ function impartial(x, y, z) {
 const partialFn = impartial.bind(this, 1, 2); //x = 1, y = 2, z = undefined 
 partialFn(10); //z = 10 --> //13
 
+//asynchronous javascript 
+/*
+-async javascript allows you to break down larger problems into smaller steps 
+-async javascript allows you to do multiple steps at one time -- tasks are completed independently 
+-sync javascript requires you to do steps one at a time
+-javascript is synchronous by default (single-threaded)
+*/
+
+//PROMISES
+/*
+promise --> pending --> RESOLVE or REJECT
+-pending = initial stage
+-if resolve, will move to execute .then statements
+-if reject, will move to execute .catch statement
+-regardless of resolve or reject, will ultimtately execute .finally statement
+*/
+let is_shop_open = true;
+let order = (time, work) => {
+  return new Promise ((resolve, reject) => {
+    if (is_shop_open){
+      setTimeout(() => {
+        resolve(work); //work will be done here
+      },time) //setting the time it takes for one "work" to be done
+    }
+    else{
+      reject(console.log("Sorry, our shop is closed.")); //error handler //if is_shop_open = false, reject will be executed 
+    }
+  })
+}
+order(2000, ()=> console.log("Doing 2 seconds of work now")) //run the code
+.then(() => {
+  return order(1000, () => console.log("Doing 1 second of work now")) //next step
+})
+.then(() => {
+  return order(5000, () => console.log("Doing 5 seconds of work now")) //next step
+})
+.then(() => {
+  return order(3000, () => console.log("Doing 3 seconds of work now")) //next step
+})
+.catch(() => {
+  console.log("Customer is sad and has left.") //error caught here
+})
+.finally(() => {
+  console.log("The day is over.") //end of promise (is optional)
+})
+
+/*
+-all you have to do is write the word "async" before any regular function, and it will become a promise
+-use try keyword to run our code, while catch keyword is used to catch our errors
+-the await keyword makes javascript wait until a promise settles and returns its result
+*/
+
+async function order(){
+  try {
+    console.log("blah");
+    console.log("oh blah?");
+    await blahblah;
+    console.log("ohhhhhhh blah blah");
+    console.log("blah blah!");
+  }
+
+  catch(error){
+    console.log("blahblah does not exist", error)
+  }
+
+  finally{
+    console.log("runs code regardless of try or catch")
+  }
+}
+order(); //runs the async code
+console.log("This is during the break!")
+
+function blahblah(){
+  return new Promise ((resolve, reject) => {
+    setTimeout(() => {
+      resolve( console.log("oh blah blah blah"));
+    }, 3000)
+  })
+}
+
+// "blah"
+// "oh blah?"
+// This is during the break!
+// **waits 3 seconds**
+// "oh blah blah blah"
+// "ohhhhhhh blah blah"
+// "blah blah!"
+// "runs code regardless of try or catch"
+
 //more algorithm scripting
 
 //diff two arrays
@@ -1213,3 +1302,27 @@ fearNotLetter("abce");
 //charCodeAt(index) --> returns an integer representing the UTF-16 code unit at the given index
 //String.fromCharCode(num1, num2,...) --> returns a string created from the specific sequence of UTF-16 unit code units passed in
 //chatAt(index) --> returns a new string consisting of the single UTF-16 code unit at the string's specific index 
+
+//rest parameter syntax allows a function to accept an indefinite number of arguments as an ARRAY
+
+// sorted union
+// Write a function that takes two or more arrays and returns a new array of unique values in the order of the original provided arrays.
+// In other words, all values present from all arrays should be included in their original order, but with no duplicates in the final array.
+// The unique numbers should be sorted by their original order, but the final array should not be sorted in numerical order.
+
+function uniteUnique(...arr) {
+  console.log(arr); //[ [ 1, 3, 2 ], [ 5, 2, 1, 4 ], [ 2, 1 ] ]
+  let oneArr = arr.reduce((prev,curr)=>{
+      return prev.concat(curr);
+  });
+  console.log(oneArr); //[ 1, 3, 2, 5, 2, 1, 4, 2, 1 ]
+  let outputArr = [];
+  oneArr.forEach((element)=> {
+    if (!outputArr.includes(element)){
+      outputArr.push(element);
+    }
+  })
+  console.log(outputArr); //[ 1, 3, 2, 5, 4 ]
+  return outputArr;
+}
+uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]);
