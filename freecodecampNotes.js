@@ -1004,11 +1004,20 @@ partialFn(10); //z = 10 --> //13
 -async javascript allows you to break down larger problems into smaller steps 
 -async javascript allows you to do multiple steps at one time -- tasks are completed independently 
 -sync javascript requires you to do steps one at a time
--javascript is synchronous by default (single-threaded)
+-javascript is synchronous by default (single-threaded) -- each line is run in the order the code appears
+
+-all synchronous code is executed first and call stack must be empty
+-then all queues will be checked (ex. microtask queue, callback queue) via event loop
+-microtask queue first, then callback queue
+-microtask queue will hold the onfulfilled function from the promise object
+-callback queue may hold the callback function from the web browser API, which is from the setTimeout function
 */
 
 //PROMISES
 /*
+-promises are special objects that are built into javascript
+-they act as a placeholder for the data we expect to get back from the web browser
+
 promise --> pending --> RESOLVE or REJECT
 -pending = initial stage
 -if resolve, will move to execute .then statements
@@ -1326,3 +1335,87 @@ function uniteUnique(...arr) {
   return outputArr;
 }
 uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]);
+
+//recursive algos
+// Write a recursive function palindrome that accepts a string as an input and returns true
+// if that string is a palindrome (the string is the same forward and backwards). The input string may have punctuation and symbols, 
+// but that should not affect whether the string is a palindrome.
+function palindrome(string, isTrue = true) {
+	if(isTrue == false){
+    return false;
+  }
+  if(isTrue && string.length < 2){
+    return isTrue;
+  }
+  let newStr = string.replace(/[^a-zA-z]/g,"").toLowerCase();
+  if (newStr[0] === newStr[newStr.length-1]){
+    newStr = newStr.slice(1,-1);
+ 		return palindrome(newStr,true)
+    console.log(newStr);
+  } else {
+    return palindrome(newStr,false);
+  }
+}
+// console.log(palindrome("Anne, I vote more cars race Rome-to-Vienna")); //-> true
+// console.log(palindrome("llama mall")); //-> true
+// console.log(palindrome("jmoney")); //-> false
+
+//Write a recursive function isPrime that determines if a number is prime and returns true if it is.
+function isPrime(num,div = 3) {
+  if(num === 2) return true;
+  if(num < 2 || num % 2 === 0)  return false;
+  if(num % div === 0) return false;
+  if(div * div > num) return true;
+      
+  return isPrime(num, div + 2);
+}
+// console.log(isPrime(1)); //-> false
+// console.log(isPrime(2)); //-> true
+// console.log(isPrime(3)); //-> true
+// console.log(isPrime(29)); //-> false
+
+//Write a recursive function pathFinder that takes an object and array as inputs and returns the value with the given path.
+function pathFinder(obj, arr) {
+	//base case
+  if (arr.length == 1) return obj[arr[0]];
+  
+  //recursive case
+  let path = arr[0]; //first, second
+  //console.log(path);
+  let newArr = arr.slice(1); //['second', 'third'], ['third']
+	//console.log(newArr)
+  let newPath = newArr[0];
+  //console.log(newPath); //second, third
+  let newObj = {};
+  newObj[newPath] = obj[path][newPath]; 
+  //console.log(obj); 
+  console.log(newObj); //{second:{ third:'finish'}},{third:'finish'}
+//   console.log("new");
+  return pathFinder(newObj, newArr);
+}
+// const obj = { first: { second: { third: "finish" } }, second: { third: "wrong" } };
+// const arr = ["first", "second", "third"];
+// console.log(pathFinder(obj, arr));   //-> "finish"
+
+//Write a recursive function flattenRecursively that flattens a nested array. 
+//Your function should be able to handle varying levels of nesting.
+function flattenRecursively(arr, result = []) {
+	//base case
+  //if there are no more nested arrays, then return the array
+  if(arr.length === 0) return result;
+
+  //recursive case
+  let first = arr[0];
+  console.log(first);
+  let rest = arr.slice(1);
+  console.log(rest);
+  if (Array.isArray(first)){
+    //console.log([...first, ...rest]);
+    return flattenRecursively([...first,...rest], result)
+  }
+  result.push(first);
+  //console.log("not an array");
+  return flattenRecursively(rest, result)
+}
+//console.log(flattenRecursively([1, [2, 3, [4]]])); //-> [1, 2, 3, 4]
+console.log(flattenRecursively([1, {}, [3, [[4]]]])); //-> [1, {}, 3, 4]
