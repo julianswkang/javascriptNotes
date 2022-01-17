@@ -19,3 +19,5 @@ push --> upload Git commits to a remote repository (repo) like Github
 pull --> download changes from remote repo to your local machine, the opposite of push 
 
 connect your local machine to your github using the ssh
+
+Making changes on this feature branch
