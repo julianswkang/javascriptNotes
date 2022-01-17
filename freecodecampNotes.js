@@ -1419,3 +1419,32 @@ function flattenRecursively(arr, result = []) {
 }
 //console.log(flattenRecursively([1, [2, 3, [4]]])); //-> [1, 2, 3, 4]
 console.log(flattenRecursively([1, {}, [3, [[4]]]])); //-> [1, {}, 3, 4]
+
+//Write a recursive function findInOrderedSet that determines if a number is in an ordered array. Assume the array is sorted. 
+//BONUS: Write the function in such a way that fully iterating through the array to check isn't necessary.
+
+function findInOrderedSet(arr, target) {
+	let mid = Math.floor(arr.length / 2); //if arr contains 5 elements, mid = 2. if 4 elements, mid = 2
+  let selectedNum = arr[mid]; //if contain 5 elements, index of 2 is the middle element. if 4 elements, index of 2 is third element
+  
+  //if the selected number is equal to the target, return true
+  if (selectedNum == target) return true;
+  if (selectedNum != target && arr.length == 1) return false;
+  
+  //recursive case
+  //since provided array is in order
+  //select the number at middle of array
+  //if that number is greater than the target, set new array as the beginning of the array to selected index - 1
+  if (selectedNum > target){
+    let newArr = arr.slice(0,mid);
+    return findInOrderedSet(newArr, target);
+  }
+  //if the number is less than the target, set the new array as the selected index + 1 to the end of the array
+  if (selectedNum < target){
+    let newArr = arr.slice(mid+1);
+    return findInOrderedSet(newArr, target)
+  }
+}
+const nums = [1, 4, 6, 7, 9, 17, 45, 67];
+console.log(findInOrderedSet(nums, 4));  //-> true
+console.log(findInOrderedSet(nums, 47));  //-> false

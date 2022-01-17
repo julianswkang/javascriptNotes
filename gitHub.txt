@@ -1,0 +1,21 @@
+Git - version control system, open sourced
+Version control - management of changes to documents, programs, large websites, and other collections of info -- allows us to look at changes and when these changes were implemented
+
+Directory == folder
+CLI = command line interface
+Terminal/command line = interface for text commands
+
+cd = change directory 
+code editor = word processor for writing code 
+repository = project, or the folder/place where your project is kept 
+
+Github = a website to host your repositories online 
+
+Git commands:
+clone --> bring a repository that is hosted somewhere like Github into a folder on your local machine
+add --> track your files and changes in Git
+commit --> save your files into Git
+push --> upload Git commits to a remote repository (repo) like Github
+pull --> download changes from remote repo to your local machine, the opposite of push 
+
+connect your local machine to your github using the ssh
