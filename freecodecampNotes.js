@@ -590,10 +590,10 @@ function Bird() {
 //Constructors follow a few conventions:
   //Constructors are defined with a capitalized name to distinguish them from other functions that are not constructors.
   //Constructors use the keyword this to set properties of the object they will create. 
-    //Inside the constructor, this refers to the new object it will create.
+    //Inside the constructor, 'this' refers to the new object it will create.
   //Constructors define properties and behaviors instead of returning a value as other functions might.
 
-  //Suppose you were writing a program to keep track of hundreds or even thousands of different birds in an aviary. 
+//Suppose you were writing a program to keep track of hundreds or even thousands of different birds in an aviary. 
 //It would take a lot of time to create all the birds, then change the properties to different values for every one. 
 //To more easily create different Bird objects, you can design your Bird constructor to accept parameters:
   function Bird(name, color) {
@@ -616,7 +616,7 @@ console.log(canary.numLegs); //2
 //Note that the prototype for duck and canary is part of the Bird constructor as Bird.prototype. 
 //Nearly every object in JavaScript has a prototype property which is part of the constructor function that created it
 
-//Anytime a constructor function creates a new object, that object is said to be an instance of its constructor
+//Anytime a constructor function creates a new object, that new object is said to be an instance of its constructor
 //verify this with the instanceof operator. instanceof allows you to compare an object to a constructor, 
 //returning true or false based on whether or not that object was created with the constructor. 
 function House(numBedrooms) {
