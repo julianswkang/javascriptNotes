@@ -55,7 +55,7 @@ Ordered lists (numbered) use the <ol></ol> tags
 --Links and images 
 To create a link in HTML, use the anchor element with <a></a> tag
 Will need an associated HTML attribute, which always goes in the element's opening tag 
-Attrivutes give additional information to an HTML element
+Attributes give additional information to an HTML element
 In this case, will need to add an href (hyperlink reference) attribute to the opening anchor tag 
 ex. <a href="https://www.google.com">click me</a>
 If the href attribute is present, the browser will give the text a blue color and underline to signify that it is a link 
@@ -82,3 +82,134 @@ Besides the src attribute, should also use an alt attribute --> will be used in 
 2. gif - good for simple animations
 3. png - great for anything that is not a photo or animated **good for diagrams/icons**
 4. svg - can scale up or down to ANY dimension without loss of quality **should use whenever possible!**
+
+CSS
+
+CSS is made up of various rules
+These rules are made up of a selector and a semi-colon separated list of declarations
+  -these declarations are made up of property:value pairs
+ex. div.bold-text {
+  font-weight: 700;
+} //div.bold-text is a selector, font-weight is a property, 700 is a value
+
+<div> is one of the basic HTML elements, which acts simply as an empty container
+Selectors simply refer to HTML elements to which CSS rules apply -- they are what is actually being "selected" for each rule 
+  -universal selectors --> selects elements of ANY type; syntax: *
+    -ex. *{ color: purple;} would result in every element with the color: purple style applied to it 
+  -type selectors --> selects all elements given element type,syntax: name of element
+    -ex. div {color: white} would result in only div elements would be selected and color: white applied to 
+  -class selectors --> selects all elements with the given class (=an attribute you place on an HTML element)
+    -ex. <div class ="alert text> Please say hi </div>
+        .alert-text {color: red;} --> selects all elements of the class, alert-text, and colorL red would be applied to them
+    -with class attributes, can add multiple classes to a single element as a space-separated list, such as class="alert-text severe-alert". Thus should never use spaces in multi-worded names, use hyphen instead 
+  -id selectors --> similar to classes, they select an element with the given ID, which is another attribute you place on an HTML element
+    -ex. <div id="Title">My title</div>
+        #title {background-color: red;} --> all divs with id "Title" will have background color of red
+    -major difference between id and classes: an element can only have ONE id. An id can only be repeated on a single page, and the id attribute should have no whitespace at all
+
+Grouping selectors:
+  -if selectors share style declarations, can be grouped together:
+    .read, .unread {color: white; background-color: black}
+    .read{ **unique declarations here}
+    .unread{ **unique declarations here}
+  -Now, .read and .unread share the same color and background color declarations 
+
+Chaining selectors: 
+  -<div>
+    <div class="subsection header">Words words</div>
+    <p class="subsection preview">Words words words</p>
+    </div>
+  -.subsection.header{color: red} --> would only apply to elements that have BOTH subsection and header classes 
+  -.subsection would apply to both
+  -.preview would only apply to "subsection preview"
+
+  Descendent combinator:
+  -A descendant combinator will only cause elements that match the last selector to be selected if they also have an ancestor (parent, grandparent, etc) that matches the previous selector.
+  -So something like ".ancestor .child" would select an element with the class child if it has an ancestor with the class "ancestor". Another way to think of it is child will only be selected if it is nested inside of "ancestor", no matter how deeply.
+  
+  <div class="ancestor"> <!-- A -->
+    <div class="contents"> <!-- B -->
+      <div class="contents"> <!-- C -->
+      </div>
+    </div>
+  </div>
+  <div class="contents"></div> <!-- D -->
+
+  /* styles.css */
+  .ancestor .contents {
+    /* some declarations */
+  }
+  -in the above example, only the first two elements with the contents class (B and C) would be selected, but that last element (D) would not be
+
+
+Properties in CSS:
+-color = element's text color
+-background-color = elements background color 
+  -color and background-color can accept keywords, HEX (#1100ff), RGB (100,0,127), and HSL(15, 65%, 23%) values 
+-font-family = font an element uses 
+-font-size = sets size of font (ex. 22px)
+-font-weight = font boldness (increments of 100, up to 900)
+-text-align = align text horizontally within an element (ex. text-align: center)
+-image height and width - will default to actual image's height and width
+  img{
+    height: 500px; (can also use auto, to automatically automatically adjust the size while changing the other property)
+    width: 500px; (can also use auto here)
+  }
+
+
+Specificity:
+-more specific declarations will take precedence over ones that are less specific 
+  -id selectors (#) > class selectors (.) > type selectors
+-An ID selector will always beat any number of class selectors, a class selector will always beat any number of type selectors, and a type selector will always beat any number of anything less specific than it. 
+-When no declaration has a selector with a higher specificity, a larger amount of a single selector will beat a smaller amount of that same selector.
+-inline styles have the highest specificity, compared to selectors 
+
+Inheritance:
+-css properties, when applied to an element, are inherited by that element's decendants 
+-exception will be when there is direct targetting of that child element 
+
+Rule order:
+-if there are still multiple conflicting rules targeting an element, whichever rule was last defined will take over
+
+External CSS:
+-creating a separate file for the CSS and linking it inside of an HTML's opening and closing <head> tags with a self-clising <link> element
+  -ex. <link rel="stylesheet" href="styles.css">
+  -href attribute is the location of the css file 
+  -rel attribute is required, specifies the relationship between the HTML file and the linked file
+-this keeps our HTML and CSS separated, making things look cleaner 
+
+Internal CSS:
+-embedded CSS, involves adding the CSS within the HTML file itself instead of creating a completely separate file 
+-will be placed inside <style></style> tags, which are placed inside the <head></head> tags of the HTML file 
+
+Inline CSS: 
+-add styles directly to the HTML elements (not recommended) -- can get messy
+-would be used if you need to add a unique style for a SINGLE element
+
+CSS cascade (https://wattenberger.com/blog/css-cascade) = way our browsers resolve CSS declarations
+1. Importance - first tier of the cascade looks at the TYPE of rule we're looking at 
+  -4 basic types of rules: 
+    1. transition - rules that apply to an active transition take utmost Importance
+    2. !important - this will cause a jump to this level of the cascade
+    3. animation - rules that apply to an active animation jump up a level in the cascade
+    4. normal - where the bulk of rules live
+
+2. Origin - second tier of the cascade, looks at WHERE the the rule was defined 
+  1. website
+  2. users
+  3. browser
+
+3. Specificity - third tier of the cascade, looks at specificity 
+  1. inline - declared within a style HTML property (most specific)
+  2. layers - layers "win" by being defined later
+  3. id - targeting elements with their id, using #id syntax
+  4. class / attribute / pseudo-class - targetting based on class, using .class syntax  
+    -attribute selectors like [href="https://google.com] using [attribute] syntax
+    -pseudo-selectors like :hover, using :pseudo-selectors syntax
+  5. type - targetting based on tag type, using the syntax type 
+-number of "hits" on the highest-reached level matters!
+
+4. Position - looks at the order that the rules were defined in 
+  -rules that are defined later in linked stylesheets or <style> tags will win, given that everything else in the cascade is the same
+  
+
