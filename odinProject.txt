@@ -83,6 +83,22 @@ Besides the src attribute, should also use an alt attribute --> will be used in 
 3. png - great for anything that is not a photo or animated **good for diagrams/icons**
 4. svg - can scale up or down to ANY dimension without loss of quality **should use whenever possible!**
 
+DOM (document object model) = data representation of the objects that comprise the structure and content of a document on the web
+-programming interface for web documents, represents the page so that programs can change the document structure, style, and content 
+-the DOM represents the document as nodes/objects so that programming languages can interact with the page 
+-as an object oriented representation of the webpage, it can be modified by scripting languages, such as javascript 
+  -javascript uses the DOM to access the document and its elements 
+-the DOM is built using multiple APIs that work together 
+  -the core DOM defines the entities describing any document and objects within it, which is then expanded upon as needed by other APIs that add new features/capabilities to the DOM
+-when you use a web browser to request a page, the server returns HTML
+  -the browser then processes the HTML and creates a tree of objects or nodes representing the page's content = DOM
+  -you can run script that can remove or adds nodes, so that the DOM and HTML differ
+  -HTML represents the initial page content, and DOM represents the current content
+  -Javascript can add/remove/edit nodes that become different than the HTML
+
+API (application programming interface) = set of features and rules that exist inside a software program (application) that enables interaction with it through software 
+  -in web dev, API is generally a set of code features (ex. methods, properites, events, etc.) that a developer can use in their apps for interacting with components of a user's web browser or other software
+
 CSS
 
 CSS is made up of various rules
@@ -211,5 +227,53 @@ CSS cascade (https://wattenberger.com/blog/css-cascade) = way our browsers resol
 
 4. Position - looks at the order that the rules were defined in 
   -rules that are defined later in linked stylesheets or <style> tags will win, given that everything else in the cascade is the same
-  
 
+Official chrome devTools doc:
+-Animation group: group of animations that appear to be related to each other 
+
+Box model: 
+-everything on a webpage is a rectangular box 
+-these boxes can have other boxes in them, and can sit alongside one another 
+-content box = area where your content is displayed, can be resized using width and height
+-padding = the whitespace between the text/content and the edge of the border
+-border = outlines/wraps the content and padding
+-margin = the whitespacespace between the border and the edge of the window and other elements
+  -shorthand property that can accept up to 4 values: margin-top, margin-right, margin-bottom, margin-left
+  -if fewer than four values set, missing values will be assumed based on the ones defined 
+  -can use auto keyword, useful for horizontal centering (will not center an element vertically)
+  -vertical margins will collapse, forming a single margin that is equal to the greater of the adjoining margins 
+  -negative margines will pull the element itself in that direction, or pull other elements towards it
+-can turn on alternative box model for an element
+  -box-sizing: border-box;
+  -this will allow height and width declared be the true height and width of the element 
+  -in the standard css box model, the actual space = height/width + margin + padding + border
+-block vs in-line display types
+  -block 
+    -box will break onto new line
+    -box will extend in the inline direction to fill the space available in its container = box will become as wide as its container 
+    -width and height properties are respected, padding, margin, and border will cause other elements to be pushed further away from the box
+    -<h1> and <p> use block as their outer display type by default
+  -inline 
+    -box will not break into new line 
+    -width and height properties will not apply
+    -vertical padding, margins, and borders will apply but will not cause other inline boxes to move away from the box
+    -horizontal padding, margins, and borders will apply and will cause other inline boxes to move away from the box
+    -<a>, <span>, <em>, <strong> use inline as their outer display type by default
+  -inline-block
+    -where you do not want an item to break into a new line, but want to respect width and height 
+  -ex. https://www.digitalocean.com/community/tutorials/css-display-inline-vs-inline-block
+  -can hardcode changes using display: block, displauy: inline, display: inline-block
+
+-Divs and Spans
+  -give no particular meaning to their content, unlike Paragraphs 
+  -they are just generic boxes and contain anything
+  -span is an inline-level element by default, commonly used to group text content and inline HTML elements so we can apply styling to them 
+    ex. highlight text, including a link
+  
+The normal layout flow is the system by which elements are placed inside the browser's viewport 
+  -block level elements are laid out in the block flow direction 
+    -each element will appear on a new line below the last one, with each separated by whatever margin is specified 
+  -inline elements behave differently, they don't appear on new lines
+    -they sit on the same line along with adjacent text as long as there is space for them 
+    -if not enough space, overflowing content will move down to the next line
+  -
