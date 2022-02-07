@@ -276,4 +276,110 @@ The normal layout flow is the system by which elements are placed inside the bro
   -inline elements behave differently, they don't appear on new lines
     -they sit on the same line along with adjacent text as long as there is space for them 
     -if not enough space, overflowing content will move down to the next line
-  -
+  
+Flexbox
+  -flexbox is a way to arrange items into rows, columns, where those items will flex (grow/shrink) based on rules you can defined
+  -a flex container is any element that has display:flex on it, and a flex item is any element that lives directly inside of a flex container
+  -flex items can also become flex containers if you put display: flex, on a flex item 
+  -can build complex layouts by creating and nesting multiple flex containers and items 
+  -some initial values are defined, all contained flex items will behave in the following way:
+    -display in a row
+    -items start from the start edge of the main axis 
+    -items do not stretch on the main axis dimension, but can shrink
+    -items will stretch to fill the size of the cross axis 
+    -flex-basis set to auto, flex-wrap set to nowrap 
+  
+Growing/shrinking with Flexbox
+  -flex declaration is shorthand for 3 properties you can set
+    -flex-grow (default 0) - "growth factor" 
+      -if we applied flex: 1 to every div, we are telling every div to grow the same amount
+        -will make each of the items grow to fill the available space, equally shared between the items to fill the container on the main axis
+      -if we add flex: 2 to just one of the divs, then that div would grow to 2x the size of the other flex items 
+        -flex-grow can be used to distribute space in proportion 
+        -if flex: 2 on one item, and flex:1 on other items, 2 parts of the available space given first item, 1 part to other two 
+    -flex-shrink (default 1) - "shrink factor"
+      -in contrast to flex-grow, flex-shrink will control how space is taken away
+      -will only really be applied if the size of the flex items is larger than the flex (parent) container 
+      -default = 1, which means all items will shrink evenly 
+      -if you do not want an item to shrink, can specify with flex-shrink: 0;
+      -can specify higher numbers to make certain items shrink at a higher rate than normal 
+      -*important to note that flex items do not necessarily respect width values.. if their parent is big enough, will grow to fit. If parent is too small, will shrink to fit 
+    -flex-basis (default auto)
+      -sets the initial size of a flex item 
+      -defines the size of that item in terms of the space it leaves as available space 
+      -the browser looks to see if the items have a size 
+        -if it does, it uses that size as the flex-basis 
+      -if items do not have a size, then the content's size is used as the flex-basis
+  -shorthand notation:
+    -flex:initial == flex: 0 1 auto
+    -flex:auto == flex: 1 1 auto
+    -flex: none == flex: 0 0 auto
+
+Axes of a flex container 
+  -default direction for a flex container = horizontal, or a rows --> runs in the inline direction
+  -can change the direction to vertical, or a column  --> runs in the block direction 
+    -use flex-direction: column 
+  -there is also row-reverse and column-reverse
+  -Need to think of flex-containers as having 2 axes: main axis and cross axis 
+    -cross axis runs perpendicular to the main axis 
+    -direction of these axes changes when flex-direction is changed 
+    -flex-direction: row places main axis horizontal, and flex-direction: column places main axis vertical 
+  -block level elements default to the full width of their parents
+  -when changing things to vertical using flex-direction: column, this adds complexity because block level elements default to the height of their content
+  -another note is that when changing flex-direction to column, flex-basis refers to height instead of width with flex-direction: row
+    -empty elements will have a height of 0, and so for flex items to fill up the height of the container, they don't need height at all so will see collapse 
+
+  
+Alignment 
+  -justify-content: center will align boxes in the center along the main axis 
+    -can use flex-start, flex-end, center, space-between (take all the spare space after all items have been laid out and share it evenly between items so there is equal amount of space between each item), space-around(items have half-size space on either end), space-evenly (items have a full-size space on either end)
+  -align-items: center can be used to change placement of items along the CROSS axis 
+    -flex-start(make items line up at the start of the flex container), flex-end (align them to the end of the flex container), center (align them to the center of the flex container), and stretch can all be used as values for the align-items property 
+  -align-content: sets how multiple lines are spaced apart from each other
+    -flex-start: lines packed to the start of the container
+    -flex-end: lines packed to the end of the container
+    -center: lines packed 
+
+Gap 
+  -gap property simply adds a specified space between flex items, similar to adding a margin to the items themselves
+  -there is also column-gap and row-gap properties 
+    -column-gap property creates gaps between items on the main axis
+    -row-gap property creates gaps between flex lines (on the cross axis)
+    -gap is shorthand that sets both together 
+
+Flex-wrap
+  -flex items can wrap onto multiple lines, using the flex-wrap: wrap property 
+  -if items are too large to display in one line, will wrap onto another line 
+  -can combine flex-direction and flex-wrap with the flex-flow:row wrap shorthand 
+
+Flexbox cheatsheet: https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+
+Javascript
+-can use an external script to link into HTML
+-<script src="script.js"></script>
+
+-comparisons:
+  -when comparing strings, will be compared lexicographically via unicode 
+  -using '==' = regular equality check 
+  -using '===' = strictly equals, checks equality without type conversion \
+
+  -true == 1 --> true; //truthy value 
+  -true === 1 --> false
+  -false == 0 --> true; //falsy value
+  -false ===0 --> false
+
+  -comparing null and undefined
+    -null === undefined --> false
+    -null == undefined --> true
+  
+  -equality check (==) and comparisons (< > >= <=) work differently 
+    -with null: 
+    -comparisons covert null to a number, treating it as 0
+    -equality checks do not perform conversions
+    ex. null > 0 --> false || null == 0 --> false || null >= 0 --> true
+
+    -but with undefined:
+      -undefined > 0 --> false || undefined < 0 --> false
+        -undefined gets converted to NaN, and NaN is a special numeric number value which returns false for all comparisons 
+      -undefined == 0 --> false
+        -undefined only equals null, undefined, and no other value
