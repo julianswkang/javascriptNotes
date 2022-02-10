@@ -95,6 +95,76 @@ DOM (document object model) = data representation of the objects that comprise t
   -you can run script that can remove or adds nodes, so that the DOM and HTML differ
   -HTML represents the initial page content, and DOM represents the current content
   -Javascript can add/remove/edit nodes that become different than the HTML
+-the DOM allows us to:
+  -add/delete/change content to an HTML document
+-every HTML element/tag in the DOM is an object (ex. head, body, ul, p, div, etc.)
+  -can invoke methods on objects to change/manipulate them
+-nodes are everything we can change in the document 
+  -elements, text within elements, HTML attributes are all separate nodes can all be changed 
+
+-Traversing the DOM
+-in the DOM, can reach in at any node and manipulate it as we need to
+-once we have that node, we can traverse into the DOM to access other nodes within that parent node
+-get elements by class name: 
+  -document.getElementsByClassName('//class name here');
+  -if multiple nodes of that class name in the form of an array
+  -can store into variables
+  -var myContentDivs = document.getElementsByClassName('//class name here');
+  -can traverse into that variable 
+  -var myH2 = myContentDivs[1].getElementsByTagName('//tag name here');
+  -this will still return an array, even if there is only one element that is returned
+  -myH2[0].innerHTML = "fdsafdas" --> will change the text within the H2 element that was grabbed
+-get elements by ID name:
+  -document.getElementById('//ID attribute here')
+  -will only return ONE element, not in the form of an array
+  -this is because there is only one ID in each document 
+
+-using properties to change content
+-innerHTML --> will return the html of the object that is being called
+  -ex. if use document.getElementsByTagName('body')[0].innerHTML, will return all of the HTML within the body tags
+-textContent --> will return the text within the element that you are invoking upon 
+  -this will also allow you change the text content by assigned it other texts
+  -ex. myTitle.textContent = "This is a new title" --> will replace the text
+
+-accessing and changing attributes 
+-can use getAttribute() and setAttribute() methods on elements 
+-.getAttribute() will return the attribute of the element
+-.setAttribute() will reassign the class of the given element
+  -____.setAttribute('class', 'pie) --> will change current class name to 'pie'
+  -____.setAttribute('id','potato') --> will change current id name to 'potato'
+  -____.setAttribute('style','position='left'); --> will either add or completely replace the style to what setAttribute sets it to
+-can add attributes using the setAttribute method with the same syntax
+
+-changing CSS styles 
+  -can also use ___.style.position = 'right';
+  -or ___.style.backgroundColor = 'blue';
+  -unlike the setAttribute method, will not completely replace the style. will simply add to it 
+
+-adding elements to the DOM
+  -will first need to create the element in javascript
+  -will then push it into the HTML where we want it
+
+  -ex. want to create a new <li> element
+  -let newLi = document.createElement('li');
+  -want to create a new <a> to place within that new <li>
+  -let newA = document.createElement('a');
+
+  -let menu = document.getElementsById('main-nav').getElementsByTagName('ul')[0];
+    -this will allow us to get the child ul element within the parent class, main-nav
+  -menu.appendChild(newLi); --> will append new li tag into the ul tag within the main-nav class
+  -newLi.appendChild(newA); --> will insert the a tag within the new li tags
+  -can use newA.innerHTML = "words" to place text within the a tags 
+  -can use newA.setAttribute('href', https://www.google.com); to add href attribute
+  -can use menu.insertBefore(newLi,menu.getElementsByTagName('li')[0]); to place the newLi at the top of the ul list
+
+-removing elements from the DOM 
+  -need to grab the element to remove and the direct parent tag that the element is within
+  -let parent = document.getElementById('main-nav').getElementsByTagName('ul')[0]; 
+  -let child = parent.getElementsByTagName('li')[0];
+  -let removed = parent.removeChild(child); --> will store the element that we removed in the removed variable, will allow us to re-insert if needed 
+    -parent.appendChild(removed); --> will add towards the bottom
+    -parent.insertBefore(removed, parent.getElementsByTagName('li')[0]) --> will add to top 
+
 
 API (application programming interface) = set of features and rules that exist inside a software program (application) that enables interaction with it through software 
   -in web dev, API is generally a set of code features (ex. methods, properites, events, etc.) that a developer can use in their apps for interacting with components of a user's web browser or other software
@@ -383,3 +453,182 @@ Javascript
         -undefined gets converted to NaN, and NaN is a special numeric number value which returns false for all comparisons 
       -undefined == 0 --> false
         -undefined only equals null, undefined, and no other value
+  
+  -null --> represents "nothing", "empty" or "value unknown"
+  -undefined --> represents "value is not assigned"
+
+  -ternary operator "?"
+    -has 3 operands... syntax is:
+      let result = condition ? value1 : value2
+    -the condition is evaluated... if it is truthy, value 1 is returned
+      -else value 2 is returned 
+  -multiple ternaries 
+    ex.
+    let age = prompt ("age?",18);
+    let message = (age < 3) ? "high baby!" :
+        age < 18 ? "Hello!" :
+        age < 100 ? "Greetings" :
+        "You're over 100?!"
+    -if age < 3, will say high baby. if < 18 but >3, will say Hello
+    -if >18 but <100 will say Greetings
+    -else will say youre over 100?!
+
+  -switch statement
+    -evaluates an expression and executes code as a result of a matching case
+    -syntax:
+      switch (expression) {
+        case x: //x is tested against an expression, if matches, will execute code in case x code block
+          //execute case x code block
+          break; --> will end switch block 
+        case y:  //if it does not match x, will test case y against the expression
+          //execute case y code block;
+          break;
+        default:
+          //execute default code block if none of the cases match
+      }
+    -can use switch ranges 
+      ex. 
+      const grade = 87;
+
+      switch (true){
+        case grade >=90:
+          console.log("A");
+          break;
+        case grade >=80:
+          console.log("B");
+          break;
+        etc..
+      }
+    -can also use multiple cases 
+      ex.
+      const month = new Date().getMonth(); //will return a number from 0 to 11
+        //0 = january, 11 = december
+      switch (month){
+        case 0:
+        case 1:
+        case 2:
+          console.log("winter");
+          break;
+        case 3:
+        case 4:
+        case 5:
+          console.log("Spring");
+          break;
+        etc...
+      }
+
+-javascript events 
+  -need to write javascript code that reacts to these events 
+  -each element in the DOM have event properties 
+  -ex. 
+    -need to get the element and store in variable
+    -let title = document.getElementById("page-title");
+      -now this variable has access to all of the event properties
+    -title.onclick = function(){
+      alert("you clicked me");
+    };
+      -when clicking the title, then will run this function and execute alert 
+    -title.onmouseover = function(){
+      alert("you hovered your mouse over me");
+    };
+  -can use event listeners
+    -addEventListeners();
+  
+  -onLoad event!
+  -window.onLoad = function(){
+
+  };
+  -the window object represents to the browser window
+  -this means, once the browser window has loaded, then running the function
+  -this will be needed at times, because if your script manipulates the HTML, will need the entire HTML to be loaded first 
+  -otherwise, the script will not know which tags are declared or their values
+
+-javascript timers 
+  -setTimeout
+  -setInterval
+  -stopping the timers:
+    -clearTimeout
+    -clearInterval
+    -this will require you to store the timeout or interval in a variable when setting interval/timeout 
+
+-Accessing form elements
+-document.forms.formName;
+-can then access the different inputs' values using:
+  -formName.name.value
+
+-Form validation
+  -can perform client side validation using the onSubmit event, prevent from sending to server side and save time, in the case when certain parameters are not met
+  -can prevent form from being submitted but returning false
+  -if want to submit form, can return true on the onSubmit 
+
+-Javascript libraries -- code that has already been written we can utilize for our own project 
+  -jquery is a very popular library
+  -can use content delivery network (CDN)
+
+Functions
+-Functions that are part of objects = methods
+-Some functions require parameters to be specified when invoking them
+-return values:
+  -values that a function returns when it has completed 
+  -some functions don't return any value
+  -after function code reaches a return, will exit the function
+  -do not need to return anything 
+  -if you return nothing, or do not have a return statement, it will automatically return "undefined"
+-function naming: 
+  -"get.." -- return a value
+  -"calc.." - calculate something
+  -"create..." - create something
+  -"check..." check something and return boolean, etc.
+-one function, one action - should do exactly what is suggested by its name 
+-can use function declarations or function expressions to create a function
+
+
+//using prompt, confirm
+function checkAge(age) {
+if (age >= 18) {
+  return true;
+} else {
+  return confirm('Do you have permission from your parents?');
+  }
+}
+let age = prompt('How old are you?', 18);
+if ( checkAge(age) ) {
+  alert( 'Access granted' );
+} else {
+  alert( 'Access denied' );
+}
+
+PROBLEM SOLVING
+1. UNDERSTAND THE PROBLEM
+-Know exactly what is being asked 
+-If you don't understand the problem, you won't know when you have successfully solved that problem
+-When you can explain the problem to someone else in plain English, you understand it
+
+2. PLAN 
+-Does your program have a user interface? What will it look like, what functionality will it have?
+-What inputs will your program have? Will the user input data or will the input come from somewhere else?
+-What is the desired output?
+-Given the inputs, what are the necessary steps to return the desired output?
+
+2b. PSEUDOCODE 
+-Write the logic for your problem in natural language instead of code
+
+4. DIVIDE AND CONQUER 
+-Identify subproblems of the big problem you are solving 
+-This can be done during the pseudocoding 
+-Do not try to solve the big problem in one go 
+-Decomposition is the main way to deal with complexity, making problems easier and more approachable to solve and understand 
+-connecting all of your "sub-solutions" will give you the solution to the original problem 
+
+5. GET UNSTUCK
+-Take a deep breath, it happens
+-Be curious about the bugs/errors
+-Debugging!
+-Reassess - look at the problem from another perspective
+-Research - learn how to Google correctly! No matter what problem you have, someone has probably solved it before 
+
+6. PRACTICE
+
+
+using a new branch here
+
